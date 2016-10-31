@@ -14,6 +14,7 @@ import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.InteractBlockEvent;
@@ -25,7 +26,7 @@ import org.spongepowered.api.text.Text;
 import com.google.inject.Inject;
 
 
-@Plugin(id = "lootcrate", name = "lootcrate project", version = "1.1")
+@Plugin(id = "lootcrate", name = "lootcrate project")
 public class MainLootCrate {
 
 	@Inject
@@ -177,7 +178,7 @@ public class MainLootCrate {
 		
 		Optional<Player> firstPlayer = event.getCause().first(Player.class);
 		Optional<Text> chest = event.getTargetBlock().get(Keys.DISPLAY_NAME);
-		Optional<ItemStack> objet = firstPlayer.get().getItemInHand();
+		Optional<ItemStack> objet = firstPlayer.get().getItemInHand(HandTypes.MAIN_HAND);
 		if(chest.isPresent()){
 		  if(objet.isPresent()){
 		    if(objet.get().get(Keys.DISPLAY_NAME).isPresent()){

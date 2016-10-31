@@ -8,6 +8,7 @@ import java.util.Set;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.block.InteractBlockEvent.Secondary;
 import org.spongepowered.api.event.cause.Cause;
@@ -26,9 +27,9 @@ public class eventUse {
 		Set<Object> keySet = config.getNode("LootCrate","LootCrate").getChildrenMap()
 				.keySet();
 		Optional<Player> firstPlayer = cause.first(Player.class);
-		Optional<ItemStack> item = firstPlayer.get().getItemInHand();
+		Optional<ItemStack> item = firstPlayer.get().getItemInHand(HandTypes.MAIN_HAND);
 		List<Text> textList = new ArrayList<Text>();
-		if (firstPlayer.get().getItemInHand().isPresent()) {
+		if (firstPlayer.get().getItemInHand(HandTypes.MAIN_HAND).isPresent()) {
 			if (item.get().get(Keys.DISPLAY_NAME).isPresent()
 					&& item.get().get(Keys.ITEM_LORE).isPresent()) {
 				Optional<Text> t = item.get().get(Keys.DISPLAY_NAME);
@@ -57,7 +58,7 @@ public class eventUse {
 										if (items.peek(1).filter(stack -> stack.getQuantity() >= 1).isPresent()) {
 										    items.poll(1);
 										ItemStack origStack = firstPlayer.get()
-												.getItemInHand().get();
+												.getItemInHand(HandTypes.MAIN_HAND).get();
 										if (config
 												.getNode("LootCrate","LootCrate", key,"system").getValue().equals("command")) {
 											if (config.getNode("LootCrate","LootCrate",
@@ -111,7 +112,7 @@ public class eventUse {
 									} else {
 									  
 										ItemStack origStack = firstPlayer.get()
-												.getItemInHand().get();
+												.getItemInHand(HandTypes.MAIN_HAND).get();
 										if (config
 												.getNode("LootCrate","LootCrate", key,
 														"system").getValue()
