@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import com.google.common.collect.ImmutableMap;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
@@ -155,9 +156,9 @@ public class MainLootCrate {
 				.permission("lootcrate.command.give")
 				.arguments(
 						GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))),
-						GenericArguments.string(Text.of("Crate/Key")),
+						GenericArguments.choices(Text.of("Crate/Key"), ImmutableMap.of("Crate", "Crate", "Key", "Key")),
 						GenericArguments.string(Text.of("ID")),
-						GenericArguments.string(Text.of("Number"))
+						GenericArguments.integer(Text.of("Number"))
 						)
 				.executor(new LootCommand(config)).build();
 		CommandSpec Reload = CommandSpec.builder()

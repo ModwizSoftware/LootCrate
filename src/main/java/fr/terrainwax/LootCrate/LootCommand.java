@@ -11,6 +11,7 @@ import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.command.args.CommandContext;
+import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.data.key.Keys;
 import org.spongepowered.api.entity.living.player.Player;
@@ -31,9 +32,9 @@ public class LootCommand implements CommandExecutor {
 			throws CommandException {
 
 		Player player = args.<Player> getOne("player").get();
-		Object CrKE = args.getOne("Crate/Key").get();
-		Object caseid = args.getOne("ID").get();
-		Object number = args.getOne("Number").get();
+		String CrKE = args.<String>getOne("Crate/Key").get();
+		String caseid = args.<String>getOne("ID").get();
+		Integer number = args.<Integer>getOne("Number").get();
 		if(CrKE.equals("Key")){
 			if (config.getNode("LootCrate","LootKey").getChildrenMap().keySet()
 					.contains(caseid)) {
@@ -45,7 +46,7 @@ public class LootCommand implements CommandExecutor {
 						.build();
 				st.offer(Keys.DISPLAY_NAME, Text.of("LootKey"));
 				st.offer(Keys.ITEM_LORE, textList);
-				st.setQuantity((int)number);
+				st.setQuantity(number);
 				player.getInventory().offer(st);
 				/*
 				 * int i = (int) Math.floor(Math.random() * 101); if(i < 90){
@@ -66,12 +67,12 @@ public class LootCommand implements CommandExecutor {
 			ItemType item = ItemTypes.CHEST;
 			List<Text> textList = new ArrayList<Text>();
 			textList.add(Text.of("LootCrate-" + caseid));
-			ItemStack st = (ItemStack) Sponge.getRegistry()
+			ItemStack st = Sponge.getRegistry()
 					.createBuilder(ItemStack.Builder.class).itemType(item)
 					.build();
 			st.offer(Keys.DISPLAY_NAME, Text.of("LootCrate"));
 			st.offer(Keys.ITEM_LORE, textList);
-			st.setQuantity((int)number);
+			st.setQuantity(number);
 			player.getInventory().offer(st);
 
 			/*
