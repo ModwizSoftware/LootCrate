@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import com.google.common.collect.ImmutableMap;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
 
@@ -14,6 +15,7 @@ import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.data.type.HandTypes;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.InteractBlockEvent;
@@ -25,7 +27,7 @@ import org.spongepowered.api.text.Text;
 import com.google.inject.Inject;
 
 
-@Plugin(id = "lootcrate", name = "lootcrate project", version = "1.1")
+@Plugin(id = "lootcrate", name = "lootcrate project")
 public class MainLootCrate {
 
 	@Inject
@@ -154,9 +156,9 @@ public class MainLootCrate {
 				.permission("lootcrate.command.give")
 				.arguments(
 						GenericArguments.onlyOne(GenericArguments.player(Text.of("player"))),
-						GenericArguments.string(Text.of("Crate/Key")),
+						GenericArguments.choices(Text.of("Crate/Key"), ImmutableMap.of("Crate", "Crate", "Key", "Key")),
 						GenericArguments.string(Text.of("ID")),
-						GenericArguments.string(Text.of("Number"))
+						GenericArguments.integer(Text.of("Number"))
 						)
 				.executor(new LootCommand(config)).build();
 		CommandSpec Reload = CommandSpec.builder()
@@ -177,7 +179,7 @@ public class MainLootCrate {
 		
 		Optional<Player> firstPlayer = event.getCause().first(Player.class);
 		Optional<Text> chest = event.getTargetBlock().get(Keys.DISPLAY_NAME);
-		Optional<ItemStack> objet = firstPlayer.get().getItemInHand();
+		Optional<ItemStack> objet = firstPlayer.get().getItemInHand(HandTypes.MAIN_HAND);
 		if(chest.isPresent()){
 		  if(objet.isPresent()){
 		    if(objet.get().get(Keys.DISPLAY_NAME).isPresent()){

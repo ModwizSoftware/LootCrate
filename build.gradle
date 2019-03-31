@@ -1,0 +1,11 @@
+plugins {
+    id 'org.spongepowered.plugin' version '0.6'
+}
+
+group = 'terrainwax'
+version = '4.0.0-alpha.1'
+description = 'A plugin for Sponge that lets you create pre-configured loot filled chests'
+
+dependencies {
+    compile 'org.spongepowered:spongeapi:5.0.0'
+}
